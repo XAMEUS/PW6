@@ -39,3 +39,6 @@
 
 # Composer PHAR
 /composer.phar
+
+# Config
+/app/config/parameters.yml
