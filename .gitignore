@@ -11,6 +11,8 @@
 !var/cache/.gitkeep
 !var/logs/.gitkeep
 
+/var/sessions/dev
+
 # Parameters
 /app/config/parameters.yml
 /app/config/parameters.ini
