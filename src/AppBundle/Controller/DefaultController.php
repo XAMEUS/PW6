@@ -8,8 +8,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
@@ -43,11 +47,17 @@ class DefaultController extends Controller
         $user = new User();
 
         $form = $this->createFormBuilder($user)
+        ->add('email', EmailType::class)
+        ->add('username', TextType::class)
+        ->add('plainPassword', RepeatedType::class, array(
+            'type' => PasswordType::class,
+            'first_options'  => array('label' => 'Password'),
+            'second_options' => array('label' => 'Repeat Password')))
         ->add('firstname', TextType::class, array('label' => 'Firstname'))
         ->add('lastname', TextType::class, array('label' => 'Lastename'))
-        ->add('birthdate', DateTimeType::class, array('label' => 'Firstname'))
+        ->add('birthdate', BirthdayType::class, array('label' => 'Birth date'))
         ->add('sex', TextType::class, array('label' => "Sex ('M' or 'F')"))
-        ->add('entry', DateTimeType::class, array('label' => 'Entry date'))
+        ->add('entry', DateType::class, array('label' => 'Entry date'))
         ->add('contract', TextType::class, array('label' => "Contract type ('CDD' or 'CDI')"))
         ->add('duration', IntegerType::class, array('label' => "Contract duration (month)"))
         ->add('salary', IntegerType::class, array('label' => "Salary"))
@@ -58,10 +68,17 @@ class DefaultController extends Controller
         // tester si le formulaire est déjà rempli
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $password = $this->get('security.password_encoder')
+                ->encodePassword($user, $user->getPlainPassword());
+            $user->setPassword($password);
+
             $em = $this->getDoctrine()->getManager();
-            $em->persist($user); // prépare l'insertion dans la BD
-            $em->flush(); // insère dans la BD
-            return $this->redirectToRoute('created', array('url' => $url));
+            $em->persist($user);
+            $em->flush();
+
+            return $this->redirectToRoute('created');
+            //return $this->redirectToRoute('created', array('url' => $url));
         }
 
         // afficher le formulaire s'il n'est pas déjà rempli
