@@ -4,14 +4,25 @@ security:
 
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
+        db_provider:
+            entity:
+                class: AppBundle:User
+                property: email
         in_memory:
             memory: ~
 
     encoders:
-        AppBundle\Entity\User: bcrypt
+        AppBundle\Entity\User:
+            algorithm: bcrypt
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
+        main:
+            anonymous: ~
+            form_login:
+                login_path: signin
+                check_path: signin
+                username_parameter: _email
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false

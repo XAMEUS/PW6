@@ -28,17 +28,7 @@ class DefaultController extends Controller
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
         ]);
     }
-
-    /**
-     * @Route("/signin", name="signin")
-     */
-    public function signinAction(Request $request)
-    {
-        return $this->render('signin.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
-        ]);
-    }
-
+    
     /**
      * @Route("/register", name="register")
      */
