@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
+use AppBundle\Entity\Formation;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
@@ -116,5 +118,37 @@ class DefaultController extends Controller
             return new JsonResponse(array('data' => json_encode($rows)));
         }
         return new Response("Erreur : Ce n'est pas une requête Ajax",400);
+    }
+
+    /**
+     * @Route("/newformation", name="newformation")
+     */
+    public function newformationAction(Request $request)
+    {
+        $formation = new Formation();
+
+        $form = $this->createFormBuilder($formation)
+        ->add('name', TextType::class, array('label' => 'Name of the formation'))
+        ->add('contents', TextareaType::class, array('label' => 'Contents', 'attr' => array('rows' => '11')))
+        ->add('date', DateType::class, array('label' => 'Date'))
+        ->add('cost', IntegerType::class, array('label' => 'Cost'))
+        ->add('duration', IntegerType::class, array('label' => 'Duration in days'))
+        ->add('prerequisites', TextareaType::class, array('label' => 'Prerequisites', 'attr' => array('rows' => '5')))
+        ->add('submit', SubmitType::class, array('label' => 'Create formation'))
+        ->getForm();
+
+        // tester si le formulaire est déjà rempli
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($formation);
+            $em->flush();
+
+            return $this->redirectToRoute('formations');
+            //return $this->redirectToRoute('created', array('url' => $url));
+        }
+
+        // afficher le formulaire s'il n'est pas déjà rempli
+        return $this->render('formations/newformation.html.twig', array('form' => $form->createView()));
     }
 }

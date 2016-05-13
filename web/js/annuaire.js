@@ -16,7 +16,6 @@ function affiche_users(recherche_p)
                 dataType: 'json',
                 success: function(reponse) {
                     $("#tbody").empty();
-
                     $.each(JSON.parse(reponse['data']), function(index, element) {
                         console.log(element);
                         $("#tbody").append('<tr><td>'+element.lastname+'</td><td>'+element.firstname+'</td><td>'+element.email+'</td><td>'+element.username+'</td></tr>');
