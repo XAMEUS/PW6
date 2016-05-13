@@ -5,13 +5,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use JsonSerializable;
 
 /**
  * @ORM\Entity
  * @UniqueEntity(fields="email", message="Email already taken")
  * @UniqueEntity(fields="username", message="Username already taken")
  */
-class User implements UserInterface
+class User implements UserInterface, JsonSerializable
 {
     /**
      * @ORM\Id
@@ -116,10 +117,19 @@ class User implements UserInterface
      */
     private $superior;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="permissionlevel", type="integer")
+     */
+    private $permissionlevel;
+
+
 
     public function __construct()
     {
         $this->isActive = true;
+        $this->permissionlevel=0;
         // may not be needed, see section on salt below
         // $this->salt = md5(uniqid(null, true));
     }
@@ -461,5 +471,38 @@ class User implements UserInterface
     public function getSuperior()
     {
         return $this->superior;
+    }
+    /**
+     * Set permissionlevel
+     *
+     * @param integer $permissionlevel
+     *
+     * @return User
+     */
+    public function setPermissionlevel($permissionlevel)
+    {
+        $this->permissionlevel = $permissionlevel;
+
+        return $this;
+    }
+
+    /**
+     * Get permissionlevel
+     *
+     * @return integer
+     */
+    public function getPermissionlevel()
+    {
+        return $this->permissionlevel;
+    }
+
+    public function jsonSerialize()
+    {
+        return array(
+            'firstname' => $this->firstname,
+            'lastname' => $this->lastname,
+            'email' => $this->email,
+            'username' => $this->username,
+        );
     }
 }

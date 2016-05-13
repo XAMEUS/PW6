@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<div class="container">
+    <form>
+        <label for="recherche" class="sr-only">Recherche</label>
+        <input type="text" id="recherche" name="recherche" class="form-control" placeholder="Nom/Prenom" required autofocus>
+    </form>
+
+    <table class="table">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>Mail</th>
+            <th>Username</th>
+        </tr>
+    </thead>
+    <tbody id="tbody">
+    </tbody>
+    </table>
+
+
+
+</div> <!-- /container -->
+{% endblock %}
+
+{% block javascripts %}
+
+    <script src="http://code.jquery.com/jquery-1.11.3.js"></script>
+    <script src="{{ asset('js/annuaire.js') }}"></script>
+
+{% endblock %}

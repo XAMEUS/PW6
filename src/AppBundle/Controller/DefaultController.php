@@ -7,6 +7,8 @@ use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -28,7 +30,7 @@ class DefaultController extends Controller
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
         ]);
     }
-    
+
     /**
      * @Route("/register", name="register")
      */
@@ -93,5 +95,26 @@ class DefaultController extends Controller
         return $this->render('test/bootstrap-theme.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
         ]);
+    }
+
+    /**
+     * @Route("/annuaire",name="annuaire")
+     */
+    public function annuaireAction(Request $request)
+    {
+        return $this->render('annuaire.html.twig');
+    }
+
+    /**
+     * @Route("/userlist",name="userlist")
+     */
+
+    public function GetUsersAction(Request $req){
+        if($req->isXmlHttpRequest()){
+            $recherche = $req->get('recherche');
+            $rows = $this->getDoctrine()->getRepository("AppBundle:User")->findAll();
+            return new JsonResponse(array('data' => json_encode($rows)));
+        }
+        return new Response("Erreur : Ce n'est pas une requête Ajax",400);
     }
 }
