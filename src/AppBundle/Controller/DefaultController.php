@@ -180,7 +180,7 @@ class DefaultController extends Controller
 
 
     /**
-     * @Route("/formation/{id}",name="formation")
+     * @Route("/formation/{id}",name="formation", defaults={"id" = 0})
      */
     public function formationAction($id, Request $request){
         $formation = $this->getDoctrine()->getRepository('AppBundle:Formation')->findOneById($id);
