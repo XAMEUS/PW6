@@ -1,0 +1,16 @@
+
+body {
+  padding-top: 51px;
+}
+
+.navbar-static-top {
+  margin-bottom: 0;
+}
+
+.top-buffer {
+  margin-top: 20px;
+}
+
+pre {
+  margin: 0;
+}

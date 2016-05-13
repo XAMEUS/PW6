@@ -28,7 +28,18 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->render('test/bootstrap-template.html.twig', [
+      $kernel = new \AppKernel('prod', true);
+
+      $kernel->boot();
+
+      /** @var $router \Symfony\Component\Routing\Router */
+      $router = $kernel->getContainer()->get('router');
+
+      $router->setOption('debug', true);
+      /** @var $collection \Symfony\Component\Routing\RouteCollection */
+      $collection = $router->getRouteCollection();
+      $allRoutes = $collection->all();
+        return $this->render('home.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
         ]);
     }
@@ -100,11 +111,11 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/annuaire",name="annuaire")
+     * @Route("/directory",name="directory")
      */
     public function annuaireAction(Request $request)
     {
-        return $this->render('annuaire.html.twig');
+        return $this->render('directory.html.twig');
     }
 
     /**
