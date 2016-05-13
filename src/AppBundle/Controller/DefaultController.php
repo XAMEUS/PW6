@@ -112,10 +112,17 @@ class DefaultController extends Controller
      */
 
     public function GetUsersAction(Request $req){
-        if($req->isXmlHttpRequest()){
-            $recherche = $req->get('recherche');
-            $rows = $this->getDoctrine()->getRepository("AppBundle:User")->findAll();
-            return new JsonResponse(array('data' => json_encode($rows)));
+        if($req->isXmlHttpRequest()) {
+
+            $em = $this->getDoctrine()->getManager();
+            $query = $em->createQuery(
+                'SELECT u
+                FROM AppBundle:User u
+                WHERE u.username LIKE :r OR u.email LIKE :r OR u.firstname LIKE :r OR u.lastname LIKE :r
+                ORDER BY u.username ASC'
+            )->setParameter('r', "%m%");
+
+            return new JsonResponse(array('data' => json_encode($query->getResult())));
         }
         return new Response("Erreur : Ce n'est pas une requête Ajax",400);
     }
