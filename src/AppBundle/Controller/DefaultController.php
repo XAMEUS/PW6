@@ -120,7 +120,7 @@ class DefaultController extends Controller
                 FROM AppBundle:User u
                 WHERE u.username LIKE :r OR u.email LIKE :r OR u.firstname LIKE :r OR u.lastname LIKE :r
                 ORDER BY u.username ASC'
-            )->setParameter('r', "%m%");
+            )->setParameter('r', "%".$req->get('recherche')."%");
 
             return new JsonResponse(array('data' => json_encode($query->getResult())));
         }
