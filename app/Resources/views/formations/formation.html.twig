@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="container">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h1>{{formation.getName()}}</h1>
+        </div>
+        <div class="panel-body">
+            <ul class="list-unstyled">
+                <li>Date : {{formation.getDate()|date('d-m-Y')}}</li>
+                <li>Duration : {{formation.getDuration()}} jour(s)</li>
+                <li>Cost : {{formation.getCost()}}€</li>
+            </ul>
+            <hr>
+            <h4>Contents</h4>
+            <p>{{formation.getContents()}}</p>
+            <hr>
+            <h4>Prerequisites</h4>
+            <p>{{formation.getPrerequisites()}}</p>
+            <hr>
+            <div class="apply"></div>
+        </div>
+    </div>
+
+
+</div> <!-- /container -->
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script src="http://code.jquery.com/jquery-1.11.3.js"></script>
+    <script src="{{ asset('js/formation.js') }}"></script>
+
+{% endblock %}

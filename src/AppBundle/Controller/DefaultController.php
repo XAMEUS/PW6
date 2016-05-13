@@ -169,4 +169,61 @@ class DefaultController extends Controller
         // afficher le formulaire s'il n'est pas déjà rempli
         return $this->render('formations/newformation.html.twig', array('form' => $form->createView()));
     }
+
+    /**
+     * @Route("/formations", name="formations")
+     */
+    public function formationsAction(Request $request){
+        $formations = $this->getDoctrine()->getRepository("AppBundle:Formation")->findAll();
+        return $this->render("formations/formations.html.twig", ['formations' => $formations]);
+    }
+
+
+    /**
+     * @Route("/formation/{id}",name="formation")
+     */
+    public function formationAction($id, Request $request){
+        $formation = $this->getDoctrine()->getRepository('AppBundle:Formation')->findOneById($id);
+
+        if(!$formation){
+            throw $this->createNotFoundException("No formation with this id : ".$id);
+        }
+
+        return $this->render("formations/formation.html.twig",['formation' => $formation]);
+    }
+
+    /**
+     * @Route("/formationapplicants",name="formationapplicants")
+     */
+
+    public function GetApplicantsAction(Request $req){
+        if($req->isXmlHttpRequest()) {
+
+            $formation = $this->getDoctrine()->getRepository("AppBundle:Formation")->findOneById($req->get('idform'));
+
+            $applicants = $formation->getApplicants();
+
+            foreach ($applicants as $a){
+                if($a->getId()==$this->getUser()->getId()){
+                    return new JsonResponse(array('data' => 1));
+                }
+            }
+            return new JsonResponse(array('data' => 0));
+        }
+        return new Response("Erreur : Ce n'est pas une requête Ajax",400);
+    }
+
+    /**
+     * @Route("/formationaddapplicant",name="formationapplicant")
+     */
+    public function addApplicantAction(Request $req){
+        if($req->isXmlHttpRequest()) {
+            $formation = $this->getDoctrine()->getRepository("AppBundle:Formation")->findOneById($req->get('idform'));
+            $formation->addApplicant($this->getUser());
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($formation);
+            $em->flush();
+        }
+            return new JsonResponse(array('data' => 0));
+    }
 }
