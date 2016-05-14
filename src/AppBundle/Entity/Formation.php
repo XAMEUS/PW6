@@ -63,7 +63,21 @@ class Formation
      */
     private $name;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="User")
+     * @ORM\JoinTable(name="applicants",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="formation_id", referencedColumnName="id")}
+     *      )
+     */
+    private $applicants;
 
+
+
+    public function __construct()
+    {
+        $this->applicants = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
 
     /**
@@ -218,5 +232,39 @@ class Formation
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Add applicant
+     *
+     * @param \AppBundle\Entity\User $applicant
+     *
+     * @return Formation
+     */
+    public function addApplicant(\AppBundle\Entity\User $applicant)
+    {
+        $this->applicants[] = $applicant;
+
+        return $this;
+    }
+
+    /**
+     * Remove applicant
+     *
+     * @param \AppBundle\Entity\User $applicant
+     */
+    public function removeApplicant(\AppBundle\Entity\User $applicant)
+    {
+        $this->applicants->removeElement($applicant);
+    }
+
+    /**
+     * Get applicants
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getApplicants()
+    {
+        return $this->applicants;
     }
 }

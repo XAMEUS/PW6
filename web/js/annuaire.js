@@ -10,7 +10,7 @@ function affiche_users(recherche_p)
         {
             $.ajax({
                 //url: "{{ path('userlist') }}",
-                url: "http://127.0.0.1:8000/userlist",
+                url: "http://localhost:8000/userlist",
                 type: 'POST',
                 data: {recherche: recherche_p},
                 dataType: 'json',
