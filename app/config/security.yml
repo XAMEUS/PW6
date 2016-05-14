@@ -7,13 +7,21 @@ security:
         db_provider:
             entity:
                 class: AppBundle:User
-                property: email
         in_memory:
             memory: ~
 
     encoders:
         AppBundle\Entity\User:
             algorithm: bcrypt
+
+    access_control:
+        - { path: ^/register, roles: ROLE_ADMIN}
+        - { path: ^/directory, roles: ROLE_USER}
+        - { path: ^/formations, roles: ROLE_USER}
+        - { path: ^/formation, roles: ROLE_USER}
+
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -25,7 +33,6 @@ security:
             form_login:
                 login_path: signin
                 check_path: signin
-                username_parameter: _email
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false

@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
 use AppBundle\Entity\Formation;
+use AppBundle\Entity\Role;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -20,6 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class DefaultController extends Controller
 {
@@ -61,12 +63,33 @@ class DefaultController extends Controller
         ->add('firstname', TextType::class, array('label' => 'Firstname'))
         ->add('lastname', TextType::class, array('label' => 'Lastename'))
         ->add('birthdate', BirthdayType::class, array('label' => 'Birth date'))
-        ->add('sex', TextType::class, array('label' => "Sex ('M' or 'F')"))
+        ->add('sex', ChoiceType::class, array(
+            'choices'  => array(
+                'M' => "M",
+                'F' => "F",
+            ),
+            'expanded' => true,
+            'label' => "Sex"))
         ->add('entry', DateType::class, array('label' => 'Entry date'))
-        ->add('contract', TextType::class, array('label' => "Contract type ('CDD' or 'CDI')"))
+        ->add('contract', ChoiceType::class, array(
+            'choices'  => array(
+                'CDD' => "CDD",
+                'CDI' => "CDI",
+            ),
+            'expanded' => true,
+            'label' => "Contract type"))
         ->add('duration', IntegerType::class, array('label' => "Contract duration (month)"))
         ->add('salary', IntegerType::class, array('label' => "Salary"))
         ->add('superior', IntegerType::class, array('label' => "Superior (id)"))
+        ->add('roles', ChoiceType::class, array(
+            'choices'  => array(
+                'ROLE_ADMIN' => new Role("ROLE_ADMIN"),
+                'ROLE_USER' => new Role("ROLE_USER"),
+            ),
+            'multiple' => true,
+            'expanded' => true,
+            'label' => "Roles"
+        ))
         ->add('save', SubmitType::class, array('label' => 'Create user'))
         ->getForm();
 

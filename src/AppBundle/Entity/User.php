@@ -5,10 +5,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use JsonSerializable;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @UniqueEntity(fields="email", message="Email already taken")
  * @UniqueEntity(fields="username", message="Username already taken")
  */
@@ -118,11 +119,11 @@ class User implements UserInterface, JsonSerializable
     private $superior;
 
     /**
-     * @var int
+     * @ORM\ManyToMany(targetEntity="Role", indexBy="name",cascade={"persist"})
+     * @ORM\JoinTable(name="app_users_roles")
      *
-     * @ORM\Column(name="permissionlevel", type="integer")
      */
-    private $permissionlevel;
+    private $roles;
 
 
 
@@ -130,6 +131,7 @@ class User implements UserInterface, JsonSerializable
     {
         $this->isActive = true;
         $this->permissionlevel=0;
+        $this->roles = new ArrayCollection;
         // may not be needed, see section on salt below
         // $this->salt = md5(uniqid(null, true));
     }
@@ -153,7 +155,11 @@ class User implements UserInterface, JsonSerializable
 
     public function getRoles()
     {
-        return array('ROLE_USER');
+        $roles = array();
+        foreach ($this->roles as $role) {
+            $roles[] = $role->getRole();
+        }
+        return $roles;
     }
 
     public function eraseCredentials()
@@ -472,29 +478,6 @@ class User implements UserInterface, JsonSerializable
     {
         return $this->superior;
     }
-    /**
-     * Set permissionlevel
-     *
-     * @param integer $permissionlevel
-     *
-     * @return User
-     */
-    public function setPermissionlevel($permissionlevel)
-    {
-        $this->permissionlevel = $permissionlevel;
-
-        return $this;
-    }
-
-    /**
-     * Get permissionlevel
-     *
-     * @return integer
-     */
-    public function getPermissionlevel()
-    {
-        return $this->permissionlevel;
-    }
 
     public function jsonSerialize()
     {
@@ -504,5 +487,45 @@ class User implements UserInterface, JsonSerializable
             'email' => $this->email,
             'username' => $this->username,
         );
+    }
+
+    /**
+     * Add role
+     *
+     * @param \AppBundle\Entity\Role $role
+     *
+     * @return User
+     */
+    public function addRole(\AppBundle\Entity\Role $role)
+    {
+        $this->roles[] = $role;
+
+        return $this;
+    }
+
+    /**
+     * Remove role
+     *
+     * @param \AppBundle\Entity\Role $role
+     */
+    public function removeRole(\AppBundle\Entity\Role $role)
+    {
+        $this->roles->removeElement($role);
+    }
+
+    /**
+     * @param Role[]|string[] $roles
+     *
+     * @return self
+     */
+    public function setRoles(array $roles)
+    {
+        $this->roles->clear();
+
+        foreach ($roles as $role) {
+            $this->addRole($role);
+        }
+
+        return $this;
     }
 }
