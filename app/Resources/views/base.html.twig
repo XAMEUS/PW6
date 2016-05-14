@@ -52,10 +52,44 @@
          </nav>
         {% endblock %}
 
-
-        <div class="jumbotron" style="margin:0">
+        <div class="blockhelp">
           <div class="container">
-            {{ dump() }}
+            <h4 style="text-align:right">
+              <!--<span id="displayHelp" class="label label-info" style="cursor: help">
+                Help
+              </span>-->
+              <span id="displayHelp" style="cursor: help">
+                Help
+              </span>
+            </h4>
+            <div id="help" style="display:none; font-size:11px">
+              {% block help %}
+              <p>
+                {{ "Default help message; use "}}{{"{"}}{{"{"}}{{" block help "}}{{"}"}}{{"}msg"}}{{"{"}}{{"{"}}{{" endblock "}}{{"}"}}{{"}"}}{{" to define the help message."}}
+              </p>
+              {% endblock %}
+            </div>
+          </div>
+        </div>
+
+        <div class="blockdebug">
+          <div class="container">
+            <h4 style="text-align:right">
+              <!--<span id="displayHelp" class="label label-info" style="cursor: help">
+                Help
+              </span>-->
+              <span id="displayDebug" style="cursor: help">
+                Dev
+              </span>
+            </h4>
+            <div id="debug" style="display:none">
+              {{ dump () }}
+              {% block debug %}
+                <p>
+                  {{ "Default debug message; use "}}{{"{"}}{{"{"}}{{" block debug "}}{{"}"}}{{"}msg"}}{{"{"}}{{"{"}}{{" endblock "}}{{"}"}}{{"}"}}{{" to define the debug message."}}
+                </p>
+              {% endblock %}
+            </div>
           </div>
         </div>
 
@@ -67,5 +101,6 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="vendor/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script src="js/help.js"></script>
     </body>
 </html>

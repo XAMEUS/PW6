@@ -14,3 +14,21 @@ body {
 pre {
   margin: 0;
 }
+
+div.blockhelp {
+  margin:0;
+  padding:0;
+  background-color: #5BC0DE;
+  color:#fefefe
+}
+
+div.blockdebug {
+  margin:0;
+  padding:0;
+  background-color: #EC971F;
+  color:#fefefe
+}
+
+#help p, #debug p {
+  font-size: 14px
+}
