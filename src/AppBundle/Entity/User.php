@@ -528,4 +528,11 @@ class User implements UserInterface, JsonSerializable
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString() {
+      return $this->firstname . " " . $this->lastname;
+    }
 }

@@ -1,0 +1,130 @@
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="stylesheet" href="{{ asset('vendor/bootstrap-3.3.6/css/bootstrap.min.css') }}">
+        {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/chat.css') }}">
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+
+{% block body %}
+
+
+<div class="container">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <span class="glyphicon glyphicon-comment"></span> Chat: {{ channel }}
+    </div>
+    <div class="panel-body" id="chatbody">
+      <ul class="chat" id="chat">
+
+      </ul>
+    </div>
+    <div class="panel-footer">
+      <div class="input-group">
+        <input id="btn-input" class="form-control input-sm" placeholder="Type your message here..." type="text">
+        <span class="input-group-btn">
+          <button class="btn btn-warning btn-sm" id="btn-chat">
+            Send
+          </button>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="vendor/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script src="js/help.js"></script>
+    {% block javascripts %}
+
+    <script type="text/javascript">
+    $(document).ready(function(){
+      $("#btn-chat").click(function() {
+          postMessage();
+          return false;
+      });
+      $("#btn-input").keyup(function(e) {
+          if(e.keyCode == 13) // ENTER
+          {
+              postMessage();
+          }
+      });
+      updateChat();
+    });
+    function postMessage()
+    {
+      $.post('{% if channel == "default" %}{{ path('chat_post')}}/default{% else %}{{ path('chat_post', {'channel': channel}) }}{% endif %}',
+        { 'message': $("#btn-input").val() },
+        function(data) {
+          // Check that the post function completed
+          if (data === 'Successful') {
+            updateChat();
+          }
+        }
+      );
+      $("#btn-input").val('');
+    }
+    playSound = function(arg){
+      return $(
+        '<audio autoplay="autoplay" style="display:none;">'
+          + '<source src="' + arg + '.mp3" />'
+          + '<source src="' + arg + '.ogg" />'
+          + '<embed src="' + arg + '.mp3" hidden="true" autostart="true" loop="false" class="playSound" />'
+        + '</audio>'
+      ).appendTo('body');
+    }
+
+    dateTimeReviver = function (key, value) {
+        var a;
+        if (typeof value === 'string') {
+            a = /\/Date\((\d*)\)\//.exec(value);
+            if (a) {
+                return new Date(+a[1]);
+            }
+        }
+        return value;
+    }
+    var n = -1;
+    function updateChat()
+    {
+        if (this.timer)
+            clearTimeout(this.timer);
+        var i = 0;
+        $.post('{% if channel == "default" %}/chat/list/default{% else %}{{ path('chat_list', {'channel': channel}) }}{% endif %}', {}, function(data) {
+          $('#chat').html('');
+          $.each(JSON.parse(data['data']), function(index, element) {
+              $("#chat").append(
+                "<li class='left clearfix'>"+
+                  "<div class='chat-body clearfix'>"+
+                    "<div class='header'>"+
+                      "<strong class='primary-font'>"+element.author.firstname + " " + element.author.lastname+"</strong> <small class='pull-right text-muted'>"+
+                      "<span class='glyphicon glyphicon-time'></span>"+element.date.date+"</small>"+
+                    "</div>"+
+                    "<p>"+ element.message +"</p>"+
+                  "</div>"+
+                "</li>"
+              ); i = i + 1;
+          });
+          if (n == -1 || i != n) {
+            $('#chatbody').animate({ scrollTop: $("#chatbody")[0].scrollHeight}, 1000);
+            n = i;
+            playSound("/mp3/notification");
+          }
+        });
+        this.timer = setTimeout('updateChat()', {{ 1000 }});
+    }
+    </script>
+    {% endblock %}
+    </body>
+</html>
