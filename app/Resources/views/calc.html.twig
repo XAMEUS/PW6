@@ -11,6 +11,47 @@
 </style>
 {% endblock %}
 
+{% block help %}
+
+<div style="padding:12px; background:#fefefe;color:#333">
+    <h4>This is a simple spreadsheet. &nbsp; ლ(´ڡ`ლ)</h4>
+    <p>You can use these functions:<p>
+    <ul>
+        <li>
+            <p><strong>agv A0,B1</strong> : to calculate the average of {A0, A1, B0, B1}.</p>
+        </li>
+        <li>
+            <p><strong>sum A0,B1</strong> : to calculate the sum of {A0, A1, B0, B1}.</p>
+        </li>
+        <li>
+            <p><strong>med A0,B1</strong> : to calculate the median of {A0, A1, B0, B1}.</p>
+        </li>
+    </ul>
+</div>
+<hr>
+
+<div style="padding:12px; background:#fefefe;color:#333; margin-bottom:12px">
+    <h4>Details</h4>
+    <ul>
+        <li>
+            <p><kbd>enter</kbd> : validate, go to the next cel (y+1).</p>
+        </li>
+        <li>
+            <p><kbd>tab</kbd> : validate, go to the next cel (x+1).</p>
+        </li>
+        <li>
+            <p><kbd><kbd>shift</kbd> + <kbd>tab</kbd></kbd> : validate, go to the previous cel (x-1).</p>
+        </li>
+        <li>
+            <p><strong>cel.focus</strong> : on focus, select the current content.</p>
+        </li>
+        <li>
+            <p><strong>cel.focusout</strong> : when focus is lost, evaluate.</p>
+        </li>
+    </ul>
+</div>
+{% endblock %}
+
 {% block body %}
 
 <div class="container top-buffer" id="aze">
