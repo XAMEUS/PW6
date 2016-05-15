@@ -10,4 +10,14 @@ namespace AppBundle\Repository;
  */
 class FormationRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findByApplicantsSuperiorId($superiorid){
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb ->select('f, u')
+            ->from('AppBundle:Formation', 'f')
+            ->leftJoin('f.applicants', 'u')
+            ->where('u.superior = :superior')
+            ->setParameter('superior', $superiorid);
+        $result = $qb->getQuery()->execute();
+        return $result;
+    }
 }

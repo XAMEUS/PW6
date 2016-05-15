@@ -85,6 +85,7 @@ class DefaultController extends Controller
             'choices'  => array(
                 'ROLE_ADMIN' => new Role("ROLE_ADMIN"),
                 'ROLE_USER' => new Role("ROLE_USER"),
+                'ROLE_FORMATIONVALIDATOR' => new Role("ROLE_FORMATIONVALIDATOR"),
             ),
             'multiple' => true,
             'expanded' => true,
@@ -237,9 +238,9 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/formationaddapplicant",name="formationapplicant")
+     * @Route("/formations/joinformation",name="joinformation")
      */
-    public function addApplicantAction(Request $req){
+    public function joinformationAction(Request $req){
         if($req->isXmlHttpRequest()) {
             $formation = $this->getDoctrine()->getRepository("AppBundle:Formation")->findOneById($req->get('idform'));
             $formation->addApplicant($this->getUser());
@@ -248,5 +249,76 @@ class DefaultController extends Controller
             $em->flush();
         }
             return new JsonResponse(array('data' => 0));
+    }
+
+    /**
+     * @Route("/formations/addapplicant",name="formationaddapplicant")
+     */
+    public function addApplicantAction(Request $req){
+        if($req->isXmlHttpRequest()) {
+            $formation = $this->getDoctrine()->getRepository("AppBundle:Formation")->findOneById($req->get('idform'));
+            $user = $this->getDoctrine()->getRepository("AppBundle:User")->findOneById($req->get('iduser'));
+            $formation->addApplicant($user);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($formation);
+            $em->flush();
+        }
+            return new JsonResponse(array('data' => 0));
+    }
+
+    /**
+     * @Route("/formations/rmapplicant",name="formationrmapplicant")
+     */
+    public function rmApplicantAction(Request $req){
+        if($req->isXmlHttpRequest()) {
+            $formation = $this->getDoctrine()->getRepository("AppBundle:Formation")->findOneById($req->get('idform'));
+            $user = $this->getDoctrine()->getRepository("AppBundle:User")->findOneById($req->get('iduser'));
+            $formation->removeApplicant($user);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($formation);
+            $em->flush();
+        }
+            return new JsonResponse(array('data' => 0));
+    }
+
+    /**
+     * @Route("/formations/addintraining",name="formationaddintraining")
+     */
+    public function addIntrainingAction(Request $req){
+        if($req->isXmlHttpRequest()) {
+            $formation = $this->getDoctrine()->getRepository("AppBundle:Formation")->findOneById($req->get('idform'));
+            $user = $this->getDoctrine()->getRepository("AppBundle:User")->findOneById($req->get('iduser'));
+            $formation->addIntraining($user);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($formation);
+            $em->flush();
+        }
+            return new JsonResponse(array('data' => 0));
+    }
+
+    /**
+     * @Route("/formations/rmintraining",name="formationrmintraining")
+     */
+    public function rmIntrainingAction(Request $req){
+        if($req->isXmlHttpRequest()) {
+            $formation = $this->getDoctrine()->getRepository("AppBundle:Formation")->findOneById($req->get('idform'));
+            $user = $this->getDoctrine()->getRepository("AppBundle:User")->findOneById($req->get('iduser'));
+            $formation->removeIntraining($user);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($formation);
+            $em->flush();
+        }
+            return new JsonResponse(array('data' => 0));
+    }
+
+    /**
+     * @Route("/formations/validation", name="validationformations")
+     */
+    public function validationformationsAction(Request $request){
+        $formations = $this->getDoctrine()->getRepository("AppBundle:Formation")->findByApplicantsSuperiorId($this->getUser()->getId());
+
+
+
+        return $this->render("formations/validationformations.html.twig", ['formations' => $formations]);
     }
 }

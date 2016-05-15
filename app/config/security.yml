@@ -19,9 +19,12 @@ security:
         - { path: ^/directory, roles: ROLE_USER}
         - { path: ^/formations, roles: ROLE_USER}
         - { path: ^/formation, roles: ROLE_USER}
+        - { path: ^/newformation, roles: ROLE_ADMIN}
+        - { path: ^/formations/validation, roles: ROLE_FORMATIONVALIDATOR}
+
 
     role_hierarchy:
-        ROLE_ADMIN: ROLE_USER
+        ROLE_ADMIN: [ROLE_USER, ROLE_FORMATIONVALIDATOR]
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs

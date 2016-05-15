@@ -20,7 +20,7 @@ $(document).ready(function(){
 
     $(".apply").on("click","#applybutton", function() {
         $.ajax({
-            url: "http://localhost:8000/formationaddapplicant",
+            url: "http://localhost:8000/formations/joinformation",
             type: 'POST',
             data: {idform: idform_p},
             dataType: 'json',

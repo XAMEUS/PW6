@@ -66,11 +66,20 @@ class Formation
     /**
      * @ORM\ManyToMany(targetEntity="User")
      * @ORM\JoinTable(name="applicants",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="formation_id", referencedColumnName="id")}
+     *      joinColumns={@ORM\JoinColumn(name="formation_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
      *      )
      */
     private $applicants;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="User")
+     * @ORM\JoinTable(name="intraining",
+     *      joinColumns={@ORM\JoinColumn(name="formation_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
+     *      )
+     */
+    private $intraining;
 
 
 
@@ -266,5 +275,39 @@ class Formation
     public function getApplicants()
     {
         return $this->applicants;
+    }
+
+    /**
+     * Add intraining
+     *
+     * @param \AppBundle\Entity\User $intraining
+     *
+     * @return Formation
+     */
+    public function addIntraining(\AppBundle\Entity\User $intraining)
+    {
+        $this->intraining[] = $intraining;
+
+        return $this;
+    }
+
+    /**
+     * Remove intraining
+     *
+     * @param \AppBundle\Entity\User $intraining
+     */
+    public function removeIntraining(\AppBundle\Entity\User $intraining)
+    {
+        $this->intraining->removeElement($intraining);
+    }
+
+    /**
+     * Get intraining
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getIntraining()
+    {
+        return $this->intraining;
     }
 }
