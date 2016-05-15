@@ -2,9 +2,14 @@
 
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('css/signin.css') }}">
+<style>
+    body {padding-top:0}
+</style>
 {% endblock %}
 
 {% block body %}
+{% block nav %}{% endblock %}
+{% block blockdebug %}{% endblock %}
 
 <div class="container">
 
