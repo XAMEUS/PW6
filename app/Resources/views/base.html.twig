@@ -44,7 +44,7 @@
                  </li>
                </ul>
                <ul class="nav navbar-nav navbar-right">
-                {% if connected %}
+                {% if is_granted('ROLE_USER') %}
                 <li><a href="/logout">Logout</a></li>
                 {% else %}
                 <li {% if path(app.request.attributes.get('_route')) == "/signin" %} class="active" {% endif %}><a href="/signin">Login</a></li>
