@@ -1,6 +1,6 @@
-{% extends 'base.html.twig' %}
+{% extends 'formations/formations_base.html.twig' %}
 
-{% block body %}
+{% block formationsbody %}
 
 <div class="container">
 
@@ -34,6 +34,7 @@
 {% block javascripts %}
 
     <script src="http://code.jquery.com/jquery-1.11.3.js"></script>
+    <script src="{{ asset('js/formations.js') }}"></script>
     <script src="{{ asset('js/formation.js') }}"></script>
 
 {% endblock %}

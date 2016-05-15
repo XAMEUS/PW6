@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 navbar-default sidebar">
+            <h5 id="joursformations">Jours de formations restant : </h5>
+            <ul class="nav nav-sidebar">
+                <li><a href="{{path('formations')}}">Formations</a></li>
+                <li><a href="{{path('validationformations')}}">Validation</a></li>
+                <li><a href="{{path('newformation')}}">New Formation</a></li>
+            </ul>
+        </div>
+
+    {% block formationsbody %}{% endblock %}
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script src="http://code.jquery.com/jquery-1.11.3.js"></script>
+    <script src="{{ asset('js/formations.js') }}"></script>
+
+{% endblock %}
