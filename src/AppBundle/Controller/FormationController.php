@@ -80,7 +80,7 @@ class FormationController extends Controller
     }
 
     /**
-     * @Route("/formationapplicants",name="formationapplicants")
+     * @Route("/formationapplicant",name="formationapplicant")
      */
 
     public function GetApplicantsAction(Request $req){
@@ -89,10 +89,17 @@ class FormationController extends Controller
             $formation = $this->getDoctrine()->getRepository("AppBundle:Formation")->findOneById($req->get('idform'));
 
             $applicants = $formation->getApplicants();
+            $intrainings = $formation->getIntraining();
 
             foreach ($applicants as $a){
                 if($a->getId()==$this->getUser()->getId()){
                     return new JsonResponse(array('data' => 1));
+                }
+            }
+
+            foreach ($intrainings as $a){
+                if($a->getId()==$this->getUser()->getId()){
+                    return new JsonResponse(array('data' => 2));
                 }
             }
             return new JsonResponse(array('data' => 0));
@@ -110,7 +117,7 @@ class FormationController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($formation);
             $em->flush();
-            return new Response("Ok");
+            return new JsonResponse(array('data' => 0));
         }else{
             return new Response("Erreur : Ce n'est pas une requête Ajax",400);
         }
