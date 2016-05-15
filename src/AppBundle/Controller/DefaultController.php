@@ -166,13 +166,15 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/calc", name="calc")
+     * @Route("/spreadsheet", name="spreadsheet")
      */
-    public function calcAction(Request $request)
+    public function spreadsheetShow(Request $request)
     {
-
+        $columns = $request->get("columns");
+        $rows = $request->get("rows");
         return $this->render('calc.html.twig', [
-
+            'columns' => ($columns == null)? 20:$columns,
+            'rows' => ($rows == null)? 20:$rows,
         ]);
     }
 }
