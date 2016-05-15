@@ -19,7 +19,7 @@ security:
         - { path: ^/directory, roles: ROLE_USER}
         - { path: ^/formations, roles: ROLE_USER}
         - { path: ^/formation, roles: ROLE_USER}
-        - { path: ^/newformation, roles: ROLE_ADMIN}
+        - { path: ^/formations/newformation, roles: ROLE_ADMIN}
         - { path: ^/formations/validation, roles: ROLE_FORMATIONVALIDATOR}
 
 

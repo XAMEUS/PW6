@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+    myJoursformation();
+
         $(".formationRow").click(function() {
             window.document.location = $(this).data("href");
         });
@@ -13,12 +15,26 @@ $(document).ready(function(){
 
             fid = $(this).data("f");
             aid = $(this).data("a");
-            rmApplicant(fid,aid);
-            addIntraining(fid,aid);
-            s = ".f"+fid+"a"+aid;
-            $(s).empty();
-            $(s).hide();
 
+            $.ajax({
+                url: "http://localhost:8000/acceptApplicantFormation",
+                type: 'POST',
+                data: {iduser: aid, idform: fid},
+                dataType: 'json',
+                success: function(reponse){
+                    if(reponse["error"] == 1){
+                        alert("Insufficient budget");
+                    }else if(reponse["error"] == 2){
+                        alert("Applicant doesn't have enough days");
+                    }else{
+                        alert("ok");
+                        myBudgetformation();
+                        s = ".f"+fid+"a"+aid;
+                        $(s).empty();
+                        $(s).hide();
+                    }
+                }
+            });
         });
 
         $(".refusebutton").on("click", function(e){
@@ -34,23 +50,34 @@ $(document).ready(function(){
 
 
 
+
 });
 
-
-function rmApplicant(f,a){
+function myJoursformation(){
     $.ajax({
-        url: "http://localhost:8000/formations/rmapplicant",
+        url: "http://localhost:8000/myJoursformation",
         type: 'POST',
-        data: {idform: f, iduser: a},
         dataType: 'json',
-        success: function() {
+        success: function(reponse){
+            $("#joursformations").html("Jours de formations restant : "+reponse["data"]);
         }
     });
 }
 
-function addIntraining(f,a){
+function myBudgetformation(){
     $.ajax({
-        url: "http://localhost:8000/formations/addintraining",
+        url: "http://localhost:8000/myBudgetformation",
+        type: 'POST',
+        dataType: 'json',
+        success: function(reponse){
+            $("#budgetformations").html("Budget disponible : "+reponse["data"]+"€");
+        }
+    });
+}
+
+function rmApplicant(f,a){
+    $.ajax({
+        url: "http://localhost:8000/formations/rmapplicant",
         type: 'POST',
         data: {idform: f, iduser: a},
         dataType: 'json',

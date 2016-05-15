@@ -114,9 +114,25 @@ class User implements UserInterface, JsonSerializable
     /**
      * @var int
      *
+     * @ORM\Column(name="joursformations", type="integer")
+     */
+    private $joursformations;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="budgetformations", type="integer")
+     */
+    private $budgetformations;
+
+    /**
+     * @var int
+     *
      * @ORM\Column(name="superior", type="integer")
      */
     private $superior;
+
+
 
     /**
      * @ORM\ManyToMany(targetEntity="Role", indexBy="name",cascade={"persist"})
@@ -130,8 +146,9 @@ class User implements UserInterface, JsonSerializable
     public function __construct()
     {
         $this->isActive = true;
-        $this->permissionlevel=0;
         $this->roles = new ArrayCollection;
+        $this->joursformations = 10;
+        $this->budgetformations = 10000;
         // may not be needed, see section on salt below
         // $this->salt = md5(uniqid(null, true));
     }
@@ -534,5 +551,53 @@ class User implements UserInterface, JsonSerializable
      */
     public function __toString() {
       return $this->firstname . " " . $this->lastname;
+    }
+
+    /**
+     * Set joursformations
+     *
+     * @param integer $joursformations
+     *
+     * @return User
+     */
+    public function setJoursformations($joursformations)
+    {
+        $this->joursformations = $joursformations;
+
+        return $this;
+    }
+
+    /**
+     * Get joursformations
+     *
+     * @return integer
+     */
+    public function getJoursformations()
+    {
+        return $this->joursformations;
+    }
+
+    /**
+     * Set budgetformations
+     *
+     * @param integer $budgetformations
+     *
+     * @return User
+     */
+    public function setBudgetformations($budgetformations)
+    {
+        $this->budgetformations = $budgetformations;
+
+        return $this;
+    }
+
+    /**
+     * Get budgetformations
+     *
+     * @return integer
+     */
+    public function getBudgetformations()
+    {
+        return $this->budgetformations;
     }
 }
