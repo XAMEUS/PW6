@@ -21,6 +21,8 @@ security:
         - { path: ^/formation, roles: ROLE_USER}
         - { path: ^/formations/newformation, roles: ROLE_ADMIN}
         - { path: ^/formations/validation, roles: ROLE_FORMATIONVALIDATOR}
+        - { path: ^/files/delete, roles: ROLE_ADMIN}
+        - { path: ^/files, roles: ROLE_USER}
 
 
     role_hierarchy:
