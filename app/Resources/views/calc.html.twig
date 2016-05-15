@@ -2,16 +2,18 @@
 
 {% block stylesheets %}
 <style>
-table tr th {
-  width: 10px;
-  text-align: center;
+#calc th {
+    text-align: center;
+}
+#calc td {
+    text-align: right;
 }
 </style>
 {% endblock %}
 
 {% block body %}
 
-<div class="container top-buffer">
+<div class="container top-buffer" id="aze">
 
     <div class="table-responsive">
         <table class="table table-bordered table-striped" id="calc">
@@ -20,6 +22,7 @@ table tr th {
           </tr>
         </thead>
         <tbody id="tbody">
+
         </tbody>
         </table>
     </div>
@@ -31,12 +34,123 @@ table tr th {
 
 <script src="http://code.jquery.com/jquery-1.11.3.js"></script>
 <script type="text/javascript">
+var xsize = 20;
+var yszie = 20;
+var a = "abcdefghijklmnopqrstuvwxyz".toUpperCase();
 $(document).ready(function(){
-    var a = "abcdefghijklmnopqrstuvwxyz".toUpperCase();
-    for (i = 0; i < 20; i++) {
-        $("#table-x").append("<th class='col-md-1'>"+a.charAt(i)+"</th>")
+    $("#table-x").append("<th></th>");
+    for (i = 0; i < xsize; i++) {
+        $("#table-x").append("<th>"+a.charAt(i)+"</th>");
     }
+    for (i = 0; i < yszie; i++) {
+        var l = "";
+        for (j = 0; j < xsize; j++) {
+            l += "<td contenteditable='true' id='"+a.charAt(j)+i+"'></td>"
+        }
+        $("#tbody").append(
+            "<tr>"+
+            "<th>"+i+"</th>"+
+            l+
+            "</tr>"
+        );
+    }
+    $("tbody").find('td').each(function() {
+        $(this).keydown(function(e) {
+            if (e.keyCode === 13) {
+              return false;
+            }
+          });
+        $(this).keyup(function(e) {
+            if(e.keyCode == 13) // ENTER
+            {
+                $("#"+this.id.substring(0, 1)+(parseInt(this.id.substring(1))+1)).focus();
+            }
+        });
+        $(this).focus(function(e) {
+            $(this).selectText();
+        });
+        $(this).focusout(function(e) {
+            var data = $(this).html();
+            var v = eval(data);
+            if (v != "0" || (v != data && data != "0"))
+                $(this).html(v);
+        });
+    });
 });
+function eval(s) {
+    s = s.replace("<br>", "");
+    var exp = /(?:^|\s)avg\s*(.*?),\s*(.*?)(?:\s|$)/g;
+    var match = exp.exec(s);
+    if (match) {
+        var x0 = match[1].substring(0, 1);
+        var y0 = parseInt(match[1].substring(1));
+        var x1 = match[2].substring(0, 1);
+        var y1 = parseInt(match[2].substring(1));
+        var b = 0; var n = 0;
+        for (i = a.indexOf(x0); i <= a.indexOf(x1); i++) {
+            for (j = y0; j <= y1; j++) {
+                var pos = a.charAt(i) + j;
+                b += parseInt(eval($("#"+pos).html()));
+                n++;
+            }
+        }
+        return b / n;
+    }
+    var exp = /(?:^|\s)sum\s*(.*?),\s*(.*?)(?:\s|$)/g;
+    var match = exp.exec(s);
+    if (match) {
+        var x0 = match[1].substring(0, 1);
+        var y0 = parseInt(match[1].substring(1));
+        var x1 = match[2].substring(0, 1);
+        var y1 = parseInt(match[2].substring(1));
+        var b = 0; var n = 0;
+        for (i = a.indexOf(x0); i <= a.indexOf(x1); i++) {
+            for (j = y0; j <= y1; j++) {
+                var pos = a.charAt(i) + j;
+                b += parseInt(eval($("#"+pos).html()));
+                n++;
+            }
+        }
+        return b;
+    }
+    var exp = /(?:^|\s)med\s*(.*?),\s*(.*?)(?:\s|$)/g;
+    var match = exp.exec(s);
+    if (match) {
+        var x0 = match[1].substring(0, 1);
+        var y0 = parseInt(match[1].substring(1));
+        var x1 = match[2].substring(0, 1);
+        var y1 = parseInt(match[2].substring(1));
+        var b = []; var n = 0;
+        for (i = a.indexOf(x0); i <= a.indexOf(x1); i++) {
+            for (j = y0; j <= y1; j++) {
+                var pos = a.charAt(i) + j;
+                b.push(parseInt(eval($("#"+pos).html())));
+                n++;
+            }
+        }
+        b = b.sort();
+        alert(b);
+        return b[Math.floor((n + 1) / 2)];
+    }
+    if (s == "") return 0;
+    return s;
+}
+jQuery.fn.selectText = function(){
+   var doc = document;
+   var element = this[0];
+   console.log(this, element);
+   if (doc.body.createTextRange) {
+       var range = document.body.createTextRange();
+       range.moveToElementText(element);
+       range.select();
+   } else if (window.getSelection) {
+       var selection = window.getSelection();
+       var range = document.createRange();
+       range.selectNodeContents(element);
+       selection.removeAllRanges();
+       selection.addRange(range);
+   }
+};
 </script>
 
 {% endblock %}
