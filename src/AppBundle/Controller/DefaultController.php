@@ -43,7 +43,7 @@ class DefaultController extends Controller
       $allRoutes = $collection->all();
 
       $securityContext = $this->container->get('security.authorization_checker');
-      
+
       return $this->render('home.html.twig', [
           'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
           'connected' => $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'),
@@ -115,7 +115,7 @@ class DefaultController extends Controller
         }
 
         // afficher le formulaire s'il n'est pas déjà rempli
-        return $this->render('register.html.twig', array('form' => $form->createView()));
+        return $this->render('register.html.twig', array('form' => $form->createView(),'connected' => $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')));
     }
 
     /**
@@ -123,8 +123,10 @@ class DefaultController extends Controller
      */
     public function dashboardAction(Request $request)
     {
+        $securityContext = $this->container->get('security.authorization_checker');
         return $this->render('test/bootstrap-dashboard.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
+            'connected' => $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')
         ]);
     }
 
@@ -133,8 +135,10 @@ class DefaultController extends Controller
      */
     public function themeAction(Request $request)
     {
+        $securityContext = $this->container->get('security.authorization_checker');
         return $this->render('test/bootstrap-theme.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
+            'connected' => $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')
         ]);
     }
 
@@ -143,7 +147,10 @@ class DefaultController extends Controller
      */
     public function annuaireAction(Request $request)
     {
-        return $this->render('directory.html.twig');
+        $securityContext = $this->container->get('security.authorization_checker');
+        return $this->render('directory.html.twig', [
+            'connected' => $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')
+        ]);
     }
 
     /**
@@ -321,8 +328,24 @@ class DefaultController extends Controller
     public function validationformationsAction(Request $request){
         $formations = $this->getDoctrine()->getRepository("AppBundle:Formation")->findByApplicantsSuperiorId($this->getUser()->getId());
 
+        $securityContext = $this->container->get('security.authorization_checker');
+
+        return $this->render("formations/validationformations.html.twig", [
+            'formations' => $formations,
+            'connected' => $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')
+        ]);
+    }
 
 
-        return $this->render("formations/validationformations.html.twig", ['formations' => $formations]);
+    /**
+     * @Route("/calc", name="calc")
+     */
+    public function calcAction(Request $request)
+    {
+        $securityContext = $this->container->get('security.authorization_checker');
+
+        return $this->render('calc.html.twig', [
+            'connected' => $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')
+        ]);
     }
 }

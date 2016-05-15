@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+<style>
+table tr th {
+  width: 10px;
+  text-align: center;
+}
+</style>
+{% endblock %}
+
+{% block body %}
+
+<div class="container top-buffer">
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped" id="calc">
+        <thead>
+          <tr id="table-x">
+          </tr>
+        </thead>
+        <tbody id="tbody">
+        </tbody>
+        </table>
+    </div>
+
+</div> <!-- /container -->
+{% endblock %}
+
+{% block javascripts %}
+
+<script src="http://code.jquery.com/jquery-1.11.3.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    var a = "abcdefghijklmnopqrstuvwxyz".toUpperCase();
+    for (i = 0; i < 20; i++) {
+        $("#table-x").append("<th class='col-md-1'>"+a.charAt(i)+"</th>")
+    }
+});
+</script>
+
+{% endblock %}
