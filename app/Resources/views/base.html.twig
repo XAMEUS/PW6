@@ -44,8 +44,12 @@
                  </li>
                </ul>
                <ul class="nav navbar-nav navbar-right">
-                 <li {% if path(app.request.attributes.get('_route')) == "/signin" %} class="active" {% endif %}><a href="/signin">Login</a></li>
-                 <li {% if path(app.request.attributes.get('_route')) == "/register" %} class="active" {% endif %}><a href="/register">Register</a></li>
+                {% if connected %}
+                <li><a href="/logout">Logout</a></li>
+                {% else %}
+                <li {% if path(app.request.attributes.get('_route')) == "/signin" %} class="active" {% endif %}><a href="/signin">Login</a></li>
+                {% endif %}
+                <li {% if path(app.request.attributes.get('_route')) == "/register" %} class="active" {% endif %}><a href="/register">Register</a></li>
                </ul>
              </div><!--/.nav-collapse -->
            </div>

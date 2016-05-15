@@ -41,9 +41,13 @@ class DefaultController extends Controller
       /** @var $collection \Symfony\Component\Routing\RouteCollection */
       $collection = $router->getRouteCollection();
       $allRoutes = $collection->all();
-        return $this->render('home.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
-        ]);
+
+      $securityContext = $this->container->get('security.authorization_checker');
+      
+      return $this->render('home.html.twig', [
+          'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
+          'connected' => $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'),
+      ]);
     }
 
     /**
