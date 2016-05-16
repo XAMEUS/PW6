@@ -2,9 +2,6 @@ $(document).ready(function(){
     $("#recherche").on("change paste keyup", function() {
         affiche_users($(this).val())
     });
-    $(".clickable-row").click(function() {
-        window.document.location = $(this).data("href");
-    });
 });
 
 function affiche_users(recherche_p)
@@ -18,7 +15,6 @@ function affiche_users(recherche_p)
                 success: function(reponse) {
                     $("#tbody").empty();
                     $.each(JSON.parse(reponse['data']), function(index, element) {
-                        console.log(element);
                         var newTR = document.createElement('tr');
                         var attribut = document.createAttribute("class");
                         attribut.value = "clickable-row";
