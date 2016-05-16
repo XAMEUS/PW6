@@ -2,9 +2,8 @@
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `email`, `username`, `password`, `is_active`, `firstname`, `lastname`, `birthdate`, `sex`, `entry`, `contract`, `duration`, `salary`, `superior`) VALUES
-(1, 'admin@admin.com', 'admin', '$2y$13$evJMovXyWKTVPt/A3mBvL.Q6dJAtlx3DqAtvahzfHxPX0L4nAn6m2', 1, 'admin', 'admin', '1896-01-01', 'M', '2011-01-01', 'CDI', 0, 120, 0);
-
+INSERT INTO `user` (`id`, `email`, `username`, `password`, `is_active`, `firstname`, `lastname`, `birthdate`, `sex`, `entry`, `contract`, `duration`, `salary`, `superior`, `joursformations`, `budgetformations`) VALUES
+(1, 'admin@admin.com', 'admin', '$2y$13$evJMovXyWKTVPt/A3mBvL.Q6dJAtlx3DqAtvahzfHxPX0L4nAn6m2', 1, 'admin', 'admin', '1896-01-01', 'M', '2011-01-01', 'CDI', 0, 10000, 1, 88, 96500);
 --
 -- Dumping data for table `app_role`
 --
