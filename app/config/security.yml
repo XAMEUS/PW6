@@ -23,6 +23,7 @@ security:
         - { path: ^/formations/validation, roles: ROLE_FORMATIONVALIDATOR}
         - { path: ^/files/delete, roles: ROLE_ADMIN}
         - { path: ^/files, roles: ROLE_USER}
+        - { path: ^/chat, roles: ROLE_USER}
 
 
     role_hierarchy:
