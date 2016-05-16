@@ -254,8 +254,10 @@ class DefaultController extends Controller
         $paramcot = array();
         $sumcot = 0;
         foreach ($cotisations as $c){
-            $paramcot[] = [$c[1],($c[2]*$salary)];
-            $sumcot += $c[2]*$salary;
+            if($_GET->get($c[0])){
+                $paramcot[] = [$c[1],($c[2]*$salary)];
+                $sumcot += $c[2]*$salary;
+            }
         }
 
         $param = array();
