@@ -1,8 +1,9 @@
 $(document).ready(function(){
-
-
     $("#recherche").on("change paste keyup", function() {
         affiche_users($(this).val())
+    });
+    $(".clickable-row").click(function() {
+        window.document.location = $(this).data("href");
     });
 });
 
@@ -19,7 +20,14 @@ function affiche_users(recherche_p)
                     $.each(JSON.parse(reponse['data']), function(index, element) {
                         console.log(element);
                         var newTR = document.createElement('tr');
-                        newTR.innerHTML = '<td>'+element.lastname+'</td><td>'+element.firstname+'</td><td>'+element.email+'</td><td>'+element.username+'</td>';
+                        var attribut = document.createAttribute("class");
+                        attribut.value = "clickable-row";
+                        newTR.setAttributeNode(attribut);
+                        attribut = document.createAttribute("data-href");
+                        attribut.value = "clickable-row";
+                        attribut.value= "/user/"+element.id;
+                        newTR.setAttributeNode(attribut);
+                        newTR.innerHTML = "<td>"+element.lastname+'</td><td>'+element.firstname+'</td><td>'+element.email+'</td><td>'+element.username+'</td>';
                         newTR.onclick = function() {
                             window.document.location = $("#tbody").data("href")+"/"+element.id;
                         }

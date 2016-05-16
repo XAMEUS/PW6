@@ -11,6 +11,9 @@
   margin-top: 20px;
 }
 
+.clickable-row {
+    cursor: pointer;
+}
 
 pre {
   margin: 0;
