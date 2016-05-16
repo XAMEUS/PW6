@@ -56,6 +56,26 @@
 
 <div class="container top-buffer" id="aze">
 
+    <form class="form-horizontal" method="post" action="/spreadsheet">
+        <div class="form-group">
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <label for="columns" class="col-md-2 control-label">columns</label>
+                    <div class="col-md-2">
+                        <input type="number" min="1" max="26" class="form-control" name="columns" placeholder="">
+                    </div>
+                    <label for="rows" class="col-md-2 control-label">rows</label>
+                    <div class="col-md-2">
+                        <input type="number" min="1" max="100" class="form-control" name="rows" placeholder="">
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-primary btn-block" type="submit">New spreadsheet</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
     <div class="table-responsive">
         <table class="table table-bordered table-striped" id="calc">
         <thead>
@@ -75,8 +95,8 @@
 
 <script src="http://code.jquery.com/jquery-1.11.3.js"></script>
 <script type="text/javascript">
-var xsize = 20;
-var yszie = 20;
+var xsize = {{ columns }};
+var yszie = {{ rows }};
 var a = "abcdefghijklmnopqrstuvwxyz".toUpperCase();
 $(document).ready(function(){
     $("#table-x").append("<th></th>");
