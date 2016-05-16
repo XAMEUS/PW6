@@ -39,54 +39,9 @@
             <p><a href="/formations">/formations</a> : <span class="label label-warning">Working</span></p>
         </li>
         <li>
-            <p><a href="/about">/about</a> : <span class="label label-danger">TODO</span></p>
+            <p><a href="{{path('fileslist')}}">/files/list</a> : <span class="label label-warning">Working</span></p>
         </li>
     </ul>
-    <h4>Routing list</h4>
-<pre>
--------------------------- -------- -------- ------ -----------------------------------
- Name                       Method   Scheme   Host   Path
--------------------------- -------- -------- ------ -----------------------------------
- _wdt                       ANY      ANY      ANY    /_wdt/{token}
- _profiler_home             ANY      ANY      ANY    /_profiler/
- _profiler_search           ANY      ANY      ANY    /_profiler/search
- _profiler_search_bar       ANY      ANY      ANY    /_profiler/search_bar
- _profiler_info             ANY      ANY      ANY    /_profiler/info/{about}
- _profiler_phpinfo          ANY      ANY      ANY    /_profiler/phpinfo
- _profiler_search_results   ANY      ANY      ANY    /_profiler/{token}/search/results
- _profiler                  ANY      ANY      ANY    /_profiler/{token}
- _profiler_router           ANY      ANY      ANY    /_profiler/{token}/router
- _profiler_exception        ANY      ANY      ANY    /_profiler/{token}/exception
- _profiler_exception_css    ANY      ANY      ANY    /_profiler/{token}/exception.css
- _twig_error_test           ANY      ANY      ANY    /_error/{code}.{_format}
- chat_show                  ANY      ANY      ANY    /chat/{channel}
- chat_post                  ANY      ANY      ANY    /chat/post/{channel}
- chat_list                  ANY      ANY      ANY    /chat/list/{channel}
- homepage                   ANY      ANY      ANY    /
- register                   ANY      ANY      ANY    /register
- dashboard                  ANY      ANY      ANY    /dashboard
- theme                      ANY      ANY      ANY    /theme
- directory                  ANY      ANY      ANY    /directory
- userlist                   ANY      ANY      ANY    /userlist
- spreadsheet                ANY      ANY      ANY    /spreadsheet
- newformation               ANY      ANY      ANY    /formations/newformation
- formations                 ANY      ANY      ANY    /formations
- formation                  ANY      ANY      ANY    /formation/{id}
- formationapplicant         ANY      ANY      ANY    /formationapplicant
- joinformation              ANY      ANY      ANY    /formations/joinformation
- formationaddapplicant      ANY      ANY      ANY    /formations/addapplicant
- formationrmapplicant       ANY      ANY      ANY    /formations/rmapplicant
- formationaddintraining     ANY      ANY      ANY    /formations/addintraining
- formationrmintraining      ANY      ANY      ANY    /formations/rmintraining
- validationformations       ANY      ANY      ANY    /formations/validation
- myjoursformation           ANY      ANY      ANY    /myJoursformation
- mybudgetformation          ANY      ANY      ANY    /myBudgetformation
- acceptapplicantformation   ANY      ANY      ANY    /acceptApplicantFormation
- signin                     ANY      ANY      ANY    /signin
- logout                     ANY      ANY      ANY    /logout
--------------------------- -------- -------- ------ -----------------------------------
-</pre>
-
 </div>
 {% endblock %}
 
