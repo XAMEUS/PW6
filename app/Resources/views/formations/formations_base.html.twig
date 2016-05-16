@@ -2,19 +2,19 @@
 
 {% block body %}
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-3 col-md-2 navbar-default sidebar">
-            <h5 id="joursformations">Jours de formations restant : </h5>
-            <ul class="nav nav-sidebar">
-                <li><a href="{{path('formations')}}">Formations</a></li>
-                <li><a href="{{path('validationformations')}}">Validation</a></li>
-                <li><a href="{{path('newformation')}}">New Formation</a></li>
-            </ul>
-        </div>
+<div class="container top-buffer">
 
-    {% block formationsbody %}{% endblock %}
+    <div class="row">
+        <ul class="nav nav-tabs">
+            <li {% if path(app.request.attributes.get('_route')) == "/formations" %} class="active" {% endif %}><a href="{{path('formations')}}">Formations</a></li>
+            <li {% if path(app.request.attributes.get('_route')) == "/formations/validation" %} class="active" {% endif %}><a href="{{path('validationformations')}}">Validation</a></li>
+            <li {% if path(app.request.attributes.get('_route')) == "/formations/newformation" %} class="active" {% endif %}><a href="{{path('newformation')}}">New Formation</a></li>
+        </ul>
     </div>
+    <div class="row">
+        <h4 id="joursformations">Jours de formations restant : </4>
+    </div>
+    {% block formationsbody %}{% endblock %}
 </div>
 
 {% endblock %}

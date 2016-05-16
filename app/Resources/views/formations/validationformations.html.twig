@@ -6,60 +6,56 @@
 
 {% block formationsbody %}
 
-<div class="container">
-    <h4 id="budgetformations">Budget disponible : </h4>
-    <table class="table table-striped table-hover">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Date</th>
-                <th>Duration</th>
-                <th>Cost</th>
-                <th>Applicant</th>
-            </tr>
-        </thead>
-        <tbody id="tbody">
-            {% for formation in formations %}
-                {% for applicant in formation.applicants %}
-                    <tr class="formationvRow f{{formation.id}}a{{applicant.id}}" data-fa=".f{{formation.id}}a{{applicant.id}}info">
-                        <td>{{formation.getName()}}</td>
-                        <td>{{formation.getDate()|date('d-m-Y')}}</td>
-                        <td>{{formation.getDuration()}} jour(s)</td>
-                        <td>{{formation.getCost()}}€</td>
-                        <td>{{applicant.getLastname()}} {{applicant.getFirstname()}}</td>
-                        <td width="10%"><button data-f="{{formation.id}}" data-a="{{applicant.id}}" class="acceptbutton btn btn-primary">Accept</button></td>
-                        <td width="10%"><button data-f="{{formation.id}}" data-a="{{applicant.id}}" class="refusebutton btn btn-danger">Refuse</button></td>
-                    </tr>
-                    <tr >
-                        <td style="display:none" class="f{{formation.id}}a{{applicant.id}}info" colspan="7">
-                            <div style="display:none" class="f{{formation.id}}a{{applicant.id}}info panel panel-default">
-                                <div class="panel-heading">
-                                    <h1>{{formation.getName()}}</h1>
-                                </div>
-                                <div class="panel-body">
-                                    <ul class="list-unstyled">
-                                        <li>Date : {{formation.getDate()|date('d-m-Y')}}</li>
-                                        <li>Duration : {{formation.getDuration()}} jour(s)</li>
-                                        <li>Cost : {{formation.getCost()}}€</li>
-                                    </ul>
-                                    <hr>
-                                    <h4>Contents</h4>
-                                    <p>{{formation.getContents()}}</p>
-                                    <hr>
-                                    <h4>Prerequisites</h4>
-                                    <p>{{formation.getPrerequisites()}}</p>
-                                    <hr>
-                                </div>
+<h4 id="budgetformations">Budget disponible : </h4>
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Duration</th>
+            <th>Cost</th>
+            <th>Applicant</th>
+        </tr>
+    </thead>
+    <tbody id="tbody">
+        {% for formation in formations %}
+            {% for applicant in formation.applicants %}
+                <tr class="formationvRow f{{formation.id}}a{{applicant.id}}" data-fa=".f{{formation.id}}a{{applicant.id}}info">
+                    <td>{{formation.getName()}}</td>
+                    <td>{{formation.getDate()|date('d-m-Y')}}</td>
+                    <td>{{formation.getDuration()}} jour(s)</td>
+                    <td>{{formation.getCost()}}€</td>
+                    <td>{{applicant.getLastname()}} {{applicant.getFirstname()}}</td>
+                    <td width="10%"><button data-f="{{formation.id}}" data-a="{{applicant.id}}" class="acceptbutton btn btn-primary">Accept</button></td>
+                    <td width="10%"><button data-f="{{formation.id}}" data-a="{{applicant.id}}" class="refusebutton btn btn-danger">Refuse</button></td>
+                </tr>
+                <tr >
+                    <td style="display:none" class="f{{formation.id}}a{{applicant.id}}info" colspan="7">
+                        <div style="display:none" class="f{{formation.id}}a{{applicant.id}}info panel panel-default">
+                            <div class="panel-heading">
+                                <h1>{{formation.getName()}}</h1>
                             </div>
-                        </td>
-                    </tr>
-                {% endfor %}
+                            <div class="panel-body">
+                                <ul class="list-unstyled">
+                                    <li>Date : {{formation.getDate()|date('d-m-Y')}}</li>
+                                    <li>Duration : {{formation.getDuration()}} jour(s)</li>
+                                    <li>Cost : {{formation.getCost()}}€</li>
+                                </ul>
+                                <hr>
+                                <h4>Contents</h4>
+                                <p>{{formation.getContents()}}</p>
+                                <hr>
+                                <h4>Prerequisites</h4>
+                                <p>{{formation.getPrerequisites()}}</p>
+                                <hr>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
             {% endfor %}
-        </tbody>
-    </table>
-
-
-</div> <!-- /container -->
+        {% endfor %}
+    </tbody>
+</table>
 
 {% endblock %}
 
