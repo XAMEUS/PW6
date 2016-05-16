@@ -170,11 +170,13 @@ class DefaultController extends Controller
      */
     public function spreadsheetShow(Request $request)
     {
-        $columns = $request->get("columns");
-        $rows = $request->get("rows");
+        $columns = $request->request->get("columns");
+        $rows = $request->request->get("rows");
+        if ($columns == null) $columns = 20;
+        if ($rows == null) $rows = 20;
         return $this->render('calc.html.twig', [
-            'columns' => ($columns == null)? 20:$columns,
-            'rows' => ($rows == null)? 20:$rows,
+            'columns' => $columns,
+            'rows' => $rows,
         ]);
     }
 }
