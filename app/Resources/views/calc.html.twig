@@ -153,7 +153,7 @@ function eval(s) {
         for (i = a.indexOf(x0); i <= a.indexOf(x1); i++) {
             for (j = y0; j <= y1; j++) {
                 var pos = a.charAt(i) + j;
-                b += parseInt(eval($("#"+pos).html()));
+                b += parseFloat(eval($("#"+pos).html()));
                 n++;
             }
         }
@@ -170,7 +170,7 @@ function eval(s) {
         for (i = a.indexOf(x0); i <= a.indexOf(x1); i++) {
             for (j = y0; j <= y1; j++) {
                 var pos = a.charAt(i) + j;
-                b += parseInt(eval($("#"+pos).html()));
+                b += parseFloat(eval($("#"+pos).html()));
                 n++;
             }
         }
@@ -187,7 +187,7 @@ function eval(s) {
         for (i = a.indexOf(x0); i <= a.indexOf(x1); i++) {
             for (j = y0; j <= y1; j++) {
                 var pos = a.charAt(i) + j;
-                b.push(parseInt(eval($("#"+pos).html())));
+                b.push(parseFloat(eval($("#"+pos).html())));
                 n++;
             }
         }
