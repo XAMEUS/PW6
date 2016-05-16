@@ -68,7 +68,7 @@ class DefaultController extends Controller
         ->add('firstname', TextType::class, array('label' => 'Firstname'))
         ->add('lastname', TextType::class, array('label' => 'Lastename'))
         ->add('birthdate', BirthdayType::class, array('label' => 'Birth date'))
-        ->add('gender', ChoiceType::class, array(
+        ->add('sex', ChoiceType::class, array(
             'choices'  => array(
                 'M' => "M",
                 'F' => "F",
