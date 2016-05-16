@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Chat: {{ channel }}{% endblock %}</title>
         <link rel="stylesheet" href="{{ asset('vendor/bootstrap-3.3.6/css/bootstrap.min.css') }}">
         {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('css/chat.css') }}">
@@ -18,7 +18,7 @@
 <div class="container">
   <div class="panel panel-primary">
     <div class="panel-heading">
-      <span class="glyphicon glyphicon-comment"></span> Chat: {{ channel }}
+      <span class="glyphicon glyphicon-comment"></span> Chat: <span id="channel" contenteditable='true'>{{ channel }}</span>
     </div>
     <div class="panel-body" id="chatbody">
       <ul class="chat" id="chat">
@@ -60,8 +60,43 @@
               postMessage();
           }
       });
+        $("#channel").keydown(function(e) {
+            if (e.keyCode === 13) {
+                return false;
+            }
+        });
+        $("#channel").keyup(function(e) {
+            if(e.keyCode == 13) // ENTER
+            {
+              document.location.href = "/chat/" + $(this).html();
+            }
+        });
+        $("#channel").focus(function(e) {
+            $(this).selectText();
+        });
+        $("#channel").focusout(function(e) {
+          document.location.href = "/chat/" + $(this).html();
+        });
       updateChat();
     });
+
+    jQuery.fn.selectText = function(){
+       var doc = document;
+       var element = this[0];
+       console.log(this, element);
+       if (doc.body.createTextRange) {
+           var range = document.body.createTextRange();
+           range.moveToElementText(element);
+           range.select();
+       } else if (window.getSelection) {
+           var selection = window.getSelection();
+           var range = document.createRange();
+           range.selectNodeContents(element);
+           selection.removeAllRanges();
+           selection.addRange(range);
+       }
+    };
+
     function postMessage()
     {
       $.post('{% if channel == "default" %}{{ path('chat_post')}}/default{% else %}{{ path('chat_post', {'channel': channel}) }}{% endif %}',

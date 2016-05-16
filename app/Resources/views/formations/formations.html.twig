@@ -6,30 +6,25 @@
 
 {% block formationsbody %}
 
-<div class="container">
 
-    <table class="table table-striped table-hover">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Date</th>
-                <th>Duration</th>
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Duration</th>
+        </tr>
+    </thead>
+    <tbody id="tbody">
+        {% for formation in formations %}
+            <tr class="formationRow" data-href={{ path('formation',{'id':formation.getId()})}}>
+                <td>{{formation.getName()}}</td>
+                <td>{{formation.getDate()|date('d-m-Y')}}</td>
+                <td>{{formation.getDuration()}} jour(s)</td>
             </tr>
-        </thead>
-        <tbody id="tbody">
-            {% for formation in formations %}
-                <tr class="formationRow" data-href={{ path('formation',{'id':formation.getId()})}}>
-                    <td>{{formation.getName()}}</td>
-                    <td>{{formation.getDate()|date('d-m-Y')}}</td>
-                    <td>{{formation.getDuration()}} jour(s)</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-
-
-</div> <!-- /container -->
+        {% endfor %}
+    </tbody>
+</table>
 
 
 {% endblock %}

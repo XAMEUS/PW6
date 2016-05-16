@@ -1,22 +1,19 @@
 {% extends 'formations/formations_base.html.twig' %}
 {% form_theme form 'bootstrap_3_layout.html.twig' %}
 
+{% block title %}Formations: new{% endblock %}
+
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('css/signin.css') }}">
 {% endblock %}
 
 {% block formationsbody %}
 
-<div class="container">
-
   <div class="container">
     {{ form_start(form) }}
     {{ form_widget(form) }}
     {{ form_end(form) }}
   </div>
-
-</div> <!-- /container -->
-
 
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
