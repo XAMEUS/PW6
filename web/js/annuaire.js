@@ -18,7 +18,13 @@ function affiche_users(recherche_p)
                     $("#tbody").empty();
                     $.each(JSON.parse(reponse['data']), function(index, element) {
                         console.log(element);
-                        $("#tbody").append('<tr><td>'+element.lastname+'</td><td>'+element.firstname+'</td><td>'+element.email+'</td><td>'+element.username+'</td></tr>');
+                        var newTR = document.createElement('tr');
+                        newTR.innerHTML = '<td>'+element.lastname+'</td><td>'+element.firstname+'</td><td>'+element.email+'</td><td>'+element.username+'</td>';
+                        newTR.onclick = function() {
+                            window.document.location = $("#tbody").data("href")+"/"+element.id;
+                        }
+                        $("#tbody").append(newTR);
+
                     });
                 }
             });

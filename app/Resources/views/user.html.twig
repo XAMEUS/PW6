@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/signin.css') }}">
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h1>{{user.getLastname()}} {{user.getFirstName()}}</h1>
+        </div>
+        <div class="panel-body">
+            <ul class="list-unstyled">
+                <li>Gender : {% if user.getSex()=="M"%} Man {% else %} Woman {% endif %}</li>
+                <li>Birthdate : {{ user.getBirthdate()|date('d-m-Y') }}</li>
+            </ul>
+            <hr>
+            <ul class="list-unstyled">
+                <li>Entry : {{user.getEntry()|date('d-m-Y')}}</li>
+                <li>Contract : {{user.getContract()}}</li>
+                {% if user.getContract()=="CDD" %}
+                <li>Duration : {{user.getDuration()}}</li>
+                {% endif %}
+                <li>SuperiorID : {{user.getSuperior()}}</li>
+            </ul>
+            <hr>
+            {% if is_granted('ROLE_ADMIN') %}
+                <div class="container">
+                    <h3>Generate payslip</h3>
+                  {{ form_start(form) }}
+                  {{ form_widget(form) }}
+                  {{ form_end(form) }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+
+</div> <!-- /container -->
+
+
+{% endblock %}

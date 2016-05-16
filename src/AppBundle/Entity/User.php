@@ -503,6 +503,7 @@ class User implements UserInterface, JsonSerializable
             'lastname' => $this->lastname,
             'email' => $this->email,
             'username' => $this->username,
+            'id' =>$this->id,
         );
     }
 

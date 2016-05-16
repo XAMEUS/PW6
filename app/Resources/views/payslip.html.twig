@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="{{ asset('css/payslip.css') }}">
+        <title>payslip</title>
+    </head>
+    <body>
+        <h1>Payslip</h1>
+        <table>
+            <tr>
+                <td>{{user.getLastName()}} {{user.getFirstName()}}</td>
+                <td>{{date|date('Y')}}</td>
+                <td>{{date|date('F')}}</td>
+            </tr>
+            <tr>
+                <td>Company Name</td>
+                <td>Employee ID {{user.getId()}}</td>
+                <td>{{date|date('d-m-Y H:i:s')}}</td>
+            </tr>
+        </table>
+        <br>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width:50%">Earnings</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Basic Salary</td>
+                    <td>{{user.getSalary()}}€</td>
+                </tr>
+                <tr>
+                    <td>Free Bonus</td>
+                    <td>0€</td>
+                </tr>
+
+                <tr class="important">
+                    <td>Gross Earnings</td>
+                    <td>{{user.getSalary()}}€</td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width:50%">Deductions</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in cotisations %}
+                <tr>
+                    <td>{{c[0]}}</td>
+                    <td>{{c[1]}}€</td>
+                </tr>
+                {% endfor %}
+                <tr class="important">
+                    <td>TotalDeductions</td>
+                    <td>{{sumcot}}€</td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <table>
+            <tr>
+                <th style="width:50%">NET Salary</th>
+                <th>{{ (user.getSalary()-sumcot) }}€</th>
+            </tr>
+        </table>
+    </body>
+</html>

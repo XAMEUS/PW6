@@ -1,0 +1,22 @@
+body{
+   size: 21cm 29.7cm;
+   margin: 27mm 16mm 27mm 16mm;
+}
+
+h1{
+    text-align: center;
+    padding-bottom:50px;
+}
+
+table {
+    width : 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid black;
+    padding : 10px;
+}
+table thead{
+    text-
+}
