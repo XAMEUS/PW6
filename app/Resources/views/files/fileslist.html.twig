@@ -16,7 +16,9 @@
                 <tr id="{{file.id}}">
                     <td>{{file.getOriginalname()}}</td>
                     <td><a href="{{ asset('uploads/files/' ~ file.path) }}">File</a></td>
+                    {% if is_granted('ROLE_ADMIN') %}
                     <td class="delete"><button data-f="{{file.path}}" data-id="#{{file.id}}" class="deletebutton btn btn-danger">Delete</button></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </tbody>
