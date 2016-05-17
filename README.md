@@ -1,10 +1,34 @@
 # PW6
 Web programming project, using Symfony 3.
 
-### Changelog
+see: http://164.132.102.236:8000 (or http://osxia.org:8000)
 
-+ Adding bootstrap css, and some templates; see:
-  * http://127.0.0.1:8000/dashboard (bootstrap-dashboard.html.twig)
-  * http://127.0.0.1:8000 (bootstrap-template.html.twig)
-  * http://127.0.0.1:8000/theme (bootstrap-theme.html.twig)
-  * http://127.0.0.1:8000/signin (signin.html.twig)
+sources: https://github.com/XAMEUS/PW6
+
+authors: Quentin Perrachon & Maxime Gourgoulhon
+
+# How to install
+
+## Normal
+
+```
+git clone https://github.com/XAMEUS/PW6.git
+cd PW6
+php bin/console doctrine:schema:update --force
+```
+
+Import an admin using db.sql (username: admin, password: admin)
+
+script.py can help you to generate random users.
+
+## With minimal .zip
+
+Try to paste all files in your symfony project.
+
+---
+
+* responsive website
+* users management (formations, paybils, search, etc.)
+* chat
+* files hosting
+* spreadsheet
