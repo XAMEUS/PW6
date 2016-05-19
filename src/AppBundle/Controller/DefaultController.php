@@ -111,7 +111,7 @@ class DefaultController extends Controller
             $em->persist($user);
             $em->flush();
 
-            return $this->redirectToRoute('created');
+            return $this->redirectToRoute('homepage');
             //return $this->redirectToRoute('created', array('url' => $url));
         }
 
